@@ -2,7 +2,7 @@ import json
 
 import torch
 from torch.utils.data import Dataset, RandomSampler, SequentialSampler, DataLoader
-from equation_verification.constants import VOCAB, SYMBOL_CLASSES, CONSTANTS, BINARY_FNS, UNARY_FNS, \
+from equation_verification.constants_new import VOCAB, SYMBOL_CLASSES, CONSTANTS, BINARY_FNS, UNARY_FNS, \
     NUMBER_ENCODER, SYMBOL_ENCODER, NUMBER_DECODER, PRETTYNAMES
 from torch.autograd import Variable
 
