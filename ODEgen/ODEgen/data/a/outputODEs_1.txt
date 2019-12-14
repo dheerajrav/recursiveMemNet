@@ -1,0 +1,9 @@
+here are 1 generated ODEs of order at most 1
+EquationP: Eq(Add(Pow(2,Mul(2,var_1)),Add(Mul(3,Derivative(Add(Pow(2,Mul(2,var_1)),Mul(var_1,exp(Mul(Mul(Mul(-1,Mul(1,Pow(10,0))),Pow(Mul(3,Pow(10,0)),-1)),var_0)))),Tuple(var_0,1))),Mul(var_1,exp(Mul(Mul(Mul(-1,Mul(1,Pow(10,0))),Pow(Mul(3,Pow(10,0)),-1)),var_0))))),Pow(4,var_1))
+ depth: 13
+positive: Eq(Add(Pow(2,Mul(2,var_1)),Add(Mul(3,Derivative(Add(Pow(2,Mul(2,var_1)),Mul(var_1,exp(Mul(Mul(Mul(-1,Mul(1,Pow(10,0))),Pow(Mul(3,Pow(10,0)),-1)),var_0)))),Tuple(var_0,1))),Mul(var_1,exp(Mul(Mul(Mul(-1,Mul(1,Pow(10,0))),Pow(Mul(3,Pow(10,0)),-1)),var_0))))),Pow(4,var_1))
+isCorrect: False
+EquationN: Eq(Add(Pow(2,Mul(2,var_1)),Add(Mul(3,Derivative(Add(Pow(2,Mul(2,var_1)),Mul(var_1,exp(Mul(Mul(Mul(-1,Mul(1,Pow(10,0))),Pow(Mul(3,Pow(10,0)),-1)),var_0)))),Tuple(var_0,1))),Mul(var_1,exp(Mul(-1,asinh(Mul(Mul(Mul(1,Pow(10,0)),Pow(Mul(3,Pow(10,0)),-1)),var_0))))))),Pow(4,var_1))
+ depth:13
+negative: Eq(Add(Pow(2,Mul(2,var_1)),Add(Mul(3,Derivative(Add(Pow(2,Mul(2,var_1)),Mul(var_1,exp(Mul(Mul(Mul(-1,Mul(1,Pow(10,0))),Pow(Mul(3,Pow(10,0)),-1)),var_0)))),Tuple(var_0,1))),Mul(var_1,exp(Mul(-1,asinh(Mul(Mul(Mul(1,Pow(10,0)),Pow(Mul(3,Pow(10,0)),-1)),var_0))))))),Pow(4,var_1))
+isCorrect: False
