@@ -89,7 +89,7 @@ def build_nnTree(model_class,
                              gate_push_pop=gate_push_pop,
                              gate_top_k=gate_top_k,
                              normalize_action=normalize_action)
-        
+
     else:
         raise ValueError("Unknown model class:%s" %model_class)
     return model
@@ -275,7 +275,7 @@ class UnaryLSTMNode(torch.nn.Module):
 
 class NNTrees(torch.nn.Module):
 
-    def __init__(self, num_hidden, num_embed, memory_size, share_memory_params, 
+    def __init__(self, num_hidden, num_embed, memory_size, share_memory_params,
                  dropout, tree_node_activation):
         super().__init__()
 
@@ -535,7 +535,7 @@ class StackNNTrees(torch.nn.Module):
 
             self.unary_stack = UnaryFullStackNNNode(stack_size=memory_size,
                                                 num_input=num_hidden, no_op=no_op) # TODO: replace with Full unary after debugging
-        
+
         elif stack_type == 'full_stack_gated':
 
             self.binary_stack = BinaryFullStackNNNodeGated(stack_size=memory_size,
@@ -548,7 +548,7 @@ class StackNNTrees(torch.nn.Module):
                                                 no_op=no_op, verbose=verbose)
 
         elif stack_type == 'add_stack':
-            
+
             self.binary_stack = BinaryAddStackNNNode(stack_size=memory_size,
                                                   num_input=num_hidden,
                                                   activation=stack_node_activation,
@@ -611,7 +611,7 @@ class StackNNTrees(torch.nn.Module):
                 stack_block = self.unary_stack if not self.disable_sharing else getattr(self, tree.function_name + "_stack")
                 output = nn_block(child, stack, trace=trace)
                 output_stack = stack_block(child, stack, trace=trace)
-            
+
             if self.verbose:
                 print('output at node {0} is {1}'.format(tree.function_name, output))
                 print('output stack at node {0} is {1}'.format(tree.function_name, output_stack))
@@ -698,7 +698,7 @@ class BinaryStackNNNode(torch.nn.Module):
             self.no_op_linear = nn.Linear(2, 1, bias=True)
         else:
             self.action = nn.Linear(num_input * 2, 2, bias=True)
-        
+
         self.input_linear = nn.Linear(num_input * 2, 1, bias=True)
         self.pop_linear = nn.Linear(2, 1, bias=True)
         self.push_linear = nn.Linear(2, 1, bias=True)
@@ -841,7 +841,7 @@ class BinaryStackNNNodeGated(torch.nn.Module):
             self.action = nn.Linear(num_input * 2, 3, bias=True)
         else:
             self.action = nn.Linear(num_input * 2, 2, bias=True)
-        
+
         self.gate_linear_l = nn.Linear(num_input*2, 1, bias=True)
         self.gate_linear_r = nn.Linear(num_input*2, 1, bias=True)
         self.input_linear = nn.Linear(num_input * 2, 1, bias=True)
@@ -877,7 +877,7 @@ class BinaryStackNNNodeGated(torch.nn.Module):
 
         push_input = self.input_linear(inp).unsqueeze(0)
         push_input = self.stack_activations(push_input)
-        
+
         push_indices = torch.LongTensor(range(0, self.stack_size-1))
         push = torch.index_select(input_stack, 0, push_indices)
         push = torch.cat((push_input, push), dim=0)
@@ -914,7 +914,7 @@ class UnaryStackNNNodeGated(torch.nn.Module):
             self.action = nn.Linear(num_input, 3, bias=True)
         else:
             self.action = nn.Linear(num_input, 2, bias=True)
-        
+
         self.gate_linear = nn.Linear(num_input, 1, bias=True)
         self.input_linear = nn.Linear(num_input, 1, bias=True)
 
@@ -1243,7 +1243,7 @@ class UnaryFullStackNNNode(torch.nn.Module):
 
 class BinaryFullStackNNNodeGated(torch.nn.Module):
 
-    def __init__(self, stack_size, num_input, activation, no_op=False, verbose=False, 
+    def __init__(self, stack_size, num_input, activation, no_op=False, verbose=False,
                  no_pop=False, likeLSTM=False, gate_push_pop=False, normalize_action=False):
         super().__init__()
 
@@ -1256,7 +1256,7 @@ class BinaryFullStackNNNodeGated(torch.nn.Module):
             self.stack_activations = F.tanh
         else:
             raise ValueError("Unhandled activation: %s" % activation)
-        
+
         if gate_push_pop == False:
             if no_op:
                 self.action = nn.Linear(num_input * 2, 3, bias=True)
@@ -1267,7 +1267,7 @@ class BinaryFullStackNNNodeGated(torch.nn.Module):
             if no_pop == False:
                 self.pop_gate_linear = nn.Linear(num_input * 2, num_input, bias=True)
             if no_op or no_pop:
-                self.no_op_gate_linear = nn.Linear(num_input * 2, num_input, bias=True) 
+                self.no_op_gate_linear = nn.Linear(num_input * 2, num_input, bias=True)
 
 
         self.gate_linear_l = nn.Linear(num_input*2, num_input, bias=True)
@@ -1388,8 +1388,8 @@ class BinaryFullStackNNNodeGated(torch.nn.Module):
 
 class UnaryFullStackNNNodeGated(torch.nn.Module):
 
-    def __init__(self, stack_size, num_input, activation, no_op=False, 
-                 verbose=False, no_pop=False, likeLSTM=False, 
+    def __init__(self, stack_size, num_input, activation, no_op=False,
+                 verbose=False, no_pop=False, likeLSTM=False,
                  gate_push_pop=False, normalize_action=False):
         super().__init__()
 
@@ -1413,7 +1413,7 @@ class UnaryFullStackNNNodeGated(torch.nn.Module):
                 self.pop_gate_linear = nn.Linear(num_input, num_input, bias=True)
             if no_op or no_pop:
                 self.no_op_gate_linear = nn.Linear(num_input, num_input, bias=True)
-                
+
 
         self.gate_linear = nn.Linear(num_input, num_input, bias=True)
         self.input_linear = nn.Linear(num_input, num_input, bias=True)
@@ -1573,7 +1573,7 @@ class BinaryAddStackNNNode(torch.nn.Module):
         push_indices = torch.LongTensor(range(0, self.stack_size-1))
         push = torch.index_select(input_stack, 0, push_indices)
         push_input = self.input_linear(inp).unsqueeze(0)# (1,)
-        push_input = self.stack_activations(push_input) 
+        push_input = self.stack_activations(push_input)
         push = torch.cat((push_input, push), dim=0)
         # push = self.stack_activations(push) # (stack_size,)
 
@@ -1949,7 +1949,7 @@ class UnaryMemoryNNNode(torch.nn.Module):
             memory: (memory_size,) or (memory_size, num_input)
 
         Returns:
-            (num_output,) 
+            (num_output,)
         """
 
         if self.memory_type == 'full_stack' or self.memory_type == 'full_stack_gated' or self.memory_type == 'full_queue_gated':
@@ -2356,11 +2356,11 @@ class UnaryStackLSTMNode(torch.nn.Module):
         else:
             self.action_h = nn.Linear(num_input, 2, bias=True)
             self.action_c = nn.Linear(num_input, 2, bias=True)
-        
+
         self.input_linear_h = nn.Linear(num_input, 1, bias=True)
         self.pop_linear_h = nn.Linear(1, 1, bias=True)
         self.push_linear_h = nn.Linear(1, 1, bias=True)
-        
+
         self.input_linear_c = nn.Linear(num_input, 1, bias=True)
         self.pop_linear_c = nn.Linear(1, 1, bias=True)
         self.push_linear_c = nn.Linear(1, 1, bias=True)
@@ -2444,8 +2444,8 @@ class StackNNTreesMem2out(torch.nn.Module):
 
     def __init__(self, num_hidden, num_embed, memory_size, \
                  dropout, tree_node_activation, stack_node_activation,
-                 no_op=False, stack_type='stack', top_k=5, verbose=False, 
-                 no_pop=False, likeLSTM=False, gate_push_pop=False, 
+                 no_op=False, stack_type='stack', top_k=5, verbose=False,
+                 no_pop=False, likeLSTM=False, gate_push_pop=False,
                  gate_top_k=False, normalize_action=False):
         super().__init__()
 
@@ -2645,7 +2645,7 @@ class BinaryMem2outNNNode(torch.nn.Module):
             self.activation = F.tanh
         else:
             raise ValueError("Unhandled activation: %s" % activation)
-        
+
         self.top_k = top_k
         self.gate_top_k = gate_top_k
         self.num_input = num_input
@@ -2655,7 +2655,7 @@ class BinaryMem2outNNNode(torch.nn.Module):
                 self.pos_linear = nn.Linear(num_input * 2, top_k, bias=True)
             else:
                 for k in range(1,self.top_k+1):
-                    setattr(self, 'pos_linear_{0}'.format(k), 
+                    setattr(self, 'pos_linear_{0}'.format(k),
                             nn.Linear(num_input*2, num_input, bias=True))
 
     def forward(self, input_left, input_right, node_memory, trace=None):
@@ -2674,7 +2674,7 @@ class BinaryMem2outNNNode(torch.nn.Module):
         o = self.o_linear(inp)
         o = F.sigmoid(o) # (num_output,)
 
-        if self.top_k > 1: 
+        if self.top_k > 1:
             if self.gate_top_k==False:
                 pos_gate = self.pos_linear(inp)
                 pos_gate = F.sigmoid(pos_gate) # (topk,)
@@ -2692,7 +2692,7 @@ class BinaryMem2outNNNode(torch.nn.Module):
                     memory = memory + pos_gate * mem_row
                 memory = memory.reshape(-1)
         else:
-            memory = node_memory[0,:].reshape(-1) # (num_output,) 
+            memory = node_memory[0,:].reshape(-1) # (num_output,)
 
         output = self.activation(memory)
         output = o * output
@@ -2708,7 +2708,7 @@ class UnaryMem2outNNNode(torch.nn.Module):
 
         if top_k == 1 and gate_top_k:
             raise AssertionError('gating top-k is only supported with top_k>1')
-        
+
         self.o_linear = nn.Linear(num_input, num_output, bias=True)
 
         if activation == "sigmoid":
@@ -2727,7 +2727,7 @@ class UnaryMem2outNNNode(torch.nn.Module):
                 self.pos_linear = nn.Linear(num_input, top_k, bias=True)
             else:
                 for k in range(1,self.top_k+1):
-                    setattr(self, 'pos_linear_{0}'.format(k), 
+                    setattr(self, 'pos_linear_{0}'.format(k),
                             nn.Linear(num_input, num_input, bias=True))
 
 
@@ -2738,13 +2738,13 @@ class UnaryMem2outNNNode(torch.nn.Module):
             memory: (memory_size,) or (memory_size, num_input)
 
         Returns:
-            (num_output,) 
+            (num_output,)
         """
 
         o = self.o_linear(inp)
         o = F.sigmoid(o) # (1,)
 
-        if self.top_k > 1: 
+        if self.top_k > 1:
             if self.gate_top_k==False:
                 pos_gate = self.pos_linear(inp)
                 pos_gate = F.sigmoid(pos_gate) # (topk,)
@@ -2785,7 +2785,7 @@ class BinaryFullQueueNNNodeGated(torch.nn.Module):
             self.stack_activations = F.tanh
         else:
             raise ValueError("Unhandled activation: %s" % activation)
-        
+
         if no_op:
             self.action = nn.Linear(num_input * 2, 3, bias=True)
         else:

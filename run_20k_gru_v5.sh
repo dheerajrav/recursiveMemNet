@@ -4,7 +4,7 @@ NAME=gru_v5
 mkdir results_gru_v5_${FOLDER}
 mkdir models_gru_v5_${FOLDER}
 
-for SEED in 12093 12345 45678
+for SEED in 12345 45678
 do
 python3 -u -m equation_verification.nn_tree_experiment_new \
     --seed $SEED \
